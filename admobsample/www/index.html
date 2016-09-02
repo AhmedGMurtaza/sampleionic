@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
+
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
+
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
+
+    <!-- your app's js -->
+    <script src="js/app.js"></script>
+  </head>
+  <body ng-app="starter" onload="onDocLoad()">
+
+    <ion-pane>
+      <ion-header-bar class="bar-stable">
+        <h1 class="title">Ionic Blank Starter</h1>
+      </ion-header-bar>
+      <ion-content>
+      </ion-content>
+    </ion-pane>
+
+ <script>
+
+    function onDocLoad() {
+        if(( /(ipad|iphone|ipod|android|windows phone)/i.test(navigator.userAgent) )) {
+            document.addEventListener('deviceready', initApp, false);
+        } else {
+            initApp();
+        }
+    }
+    
+    function initApp() {
+        initAd();
+        // display the banner at startup
+        window.plugins.AdMob.createBannerView();
+      
+        // display the interstitial at startup
+        window.plugins.AdMob.createInterstitialView();
+    }
+    function initAd(){
+        if ( window.plugins && window.plugins.AdMob ) {
+          var ad_units = {
+        ios : {
+          banner: 'ca-app-pub-6869992474017983/4806197152',
+          interstitial: 'ca-app-pub-6869992474017983/7563979554'
+        },
+        android : {
+          banner: 'ca-app-pub-8737366443143373/3875934649',
+          interstitial: 'ca-app-pub-8737366443143373/6829401043'
+        },
+        wp8 : {
+          banner: 'ca-app-pub-6869992474017983/8878394753',
+          interstitial: 'ca-app-pub-6869992474017983/1355127956'
+        }
+          };
+          var admobid = "";
+          if( /(android)/i.test(navigator.userAgent) ) {
+            admobid = ad_units.android;
+          } else if(/(iphone|ipad)/i.test(navigator.userAgent)) {
+            admobid = ad_units.ios;
+          } else {
+            admobid = ad_units.wp8;
+          }
+            window.plugins.AdMob.setOptions( {
+                publisherId: admobid.banner,
+                interstitialAdId: admobid.interstitial,
+                bannerAtTop: false, // set to true, to put banner at top
+                overlap: false, // set to true, to allow banner overlap webview
+                offsetTopBar: false, // set to true to avoid ios7 status bar overlap
+                isTesting: true, // receiving test ad
+                autoShow: true // auto show interstitial ad when loaded
+            });
+            registerAdEvents();
+            
+        } else {
+            alert( 'admob plugin not ready' );
+        }
+    }
+  // optional, in case respond to events
+    function registerAdEvents() {
+      document.addEventListener('onReceiveAd', function(){});
+        document.addEventListener('onFailedToReceiveAd', function(data){});
+        document.addEventListener('onPresentAd', function(){});
+        document.addEventListener('onDismissAd', function(){ });
+        document.addEventListener('onLeaveToAd', function(){ });
+        document.addEventListener('onReceiveInterstitialAd', function(){ });
+        document.addEventListener('onPresentInterstitialAd', function(){ });
+        document.addEventListener('onDismissInterstitialAd', function(){ });
+    }
+    </script>
+
+  </body>
+</html>
